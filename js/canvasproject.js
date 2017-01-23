@@ -13,11 +13,16 @@ class Point{
 }
 
 class Rectangle{
-    constructor(x1,y2,x2,y2){
+    constructor(x1,y1,x2,y2){
         this.topLeft = new Point(x1,y1);
         this.topRight = new Point(x2,y1);
         this.bottomLeft = new Point(x1,y2);
         this.bottomRight = new Point(x2,y2);
+    }
+
+    draw(context){
+        context.strokeRect(this.bottomLeft.xCoord,this.topLeft.yCoord,this.topRight.xCoord - this.topLeft.xCoord,this.bottomRight.yCoord - this.topLeft.yCoord);
+
     }
 }
 
@@ -55,8 +60,8 @@ $(document).ready(function(){
             //Rectangle drawing
             context.fillStyle = nextColor;
             var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord);
-            context.strokeRect(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord - beginPoint.xCoord,currentEnd.yCoord - beginPoint.yCoord);
             objectArray.push(tmpRect);
+            tmpRect.draw(context);
         }
 
         //line drawing
@@ -79,6 +84,10 @@ $(document).ready(function(){
 
     $("#MyCanvas1").mouseup(function(e){
         isDrawing = false;
+        for(var i = 0; i < objectArray.length; i++){
+            console.log(objectArray[i]);
+        }
+
         //if (nextObject == "Rectangle"){}
     });
 });
