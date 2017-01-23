@@ -2,26 +2,71 @@
  * Created by Berglind on 23.1.2017.
  */
 
+//To save, use json object. There is an api to call when saving or loading data
+
+class Point{
+    constructor(x,y){
+        this.xCoord = x;
+        this.yCoord = y;
+    }
+
+}
+
 $(document).ready(function(){
     var canvas = document.getElementById("MyCanvas1");
     var context = canvas.getContext("2d");
+
+    //default settings
+    var nextObject = "Pen";
+    var nextColor = "Black";
+
+    var beginPoint;
+    var isDrawing = false;
 
     $("#MyCanvas1").mousedown(function(e){
         var xCoord = e.pageX - this.offsetLeft;
         var yCoord = e.pageY - this.offsetTop;
 
-        //Rectangle drawing
-        context.fillStyle = "black";
-        context.strokeRect(xCoord,yCoord,10,10);
+        beginPoint = new Point(xCoord,yCoord);
+        isDrawing = true;
+
+    });
+
+    $("#MyCanvas1").mousemove(function(e){
+       var xCoord = e.pageX - this.offsetLeft;
+       var yCoord = e.pageY - this.offsetTop;
+
+        var currentEnd = new Point(xCoord,yCoord);
+
+        context.clearRect(0,0,500,500);
+
+        if( isDrawing === true){
+            //Rectangle drawing
+            context.fillStyle = "black";
+            context.strokeRect(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord - beginPoint.xCoord,currentEnd.yCoord - beginPoint.yCoord);
+
+        }
 
         //line drawing
-        context.beginPath();
-        context.moveTo(xCoord,yCoord);
-        context.lineTo(xCoord+10, yCoord+10);
-        context.stroke();
+        /*context.beginPath();
+        context.moveTo(current.xCoord,current.yCoord);
+        context.lineTo(current.xCoord+10, current.yCoord+10);
+        context.stroke();*/
 
+        //circle drawing
+        /*context.beginPath();
+        context.arc(current.xCoord,current.yCoord,10,0,2*Math.PI,false);
+        context.strokeStyle = "black";
+        context.stroke();*/
 
+        //text drawing
+        /*context.strokeText("Text",current.xCoord,current.yCoord,10);
+        //text calculating how much space a text needs
+        context.measureText("Text");*/
+    });
 
+    $("#MyCanvas1").mouseup(function(e){
+        isDrawing = false;
     });
 });
 
