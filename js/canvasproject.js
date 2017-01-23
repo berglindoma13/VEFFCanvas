@@ -7,7 +7,6 @@ $(document).ready(function(){
     var context = canvas.getContext("2d");
 
     $("#MyCanvas1").mousedown(function(e){
-        console.log("here");
         var xCoord = e.pageX - this.offsetLeft;
         var yCoord = e.pageY - this.offsetTop;
 
@@ -21,7 +20,7 @@ $(document).ready(function(){
         context.lineTo(xCoord+10, yCoord+10);
         context.stroke();
 
-        
+
 
     });
 });
