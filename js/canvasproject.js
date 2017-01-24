@@ -78,7 +78,7 @@ class Circle extends Shape{
 
     draw(context){
         context.beginPath();
-        context.arc(this.xCoord,this.yCoord,this.radius,0,2*Math.PI,false);
+        context.arc(this.xCoord,this.yCoord,this.radius,0,2*Math.PI);
         context.strokeStyle = this.selectedColor;
         context.stroke();
     }
@@ -102,6 +102,7 @@ class Text extends Shape{
 
 
 var objectArray = [];
+var undoneObject;
 
 
 $(document).ready(function(){
@@ -139,9 +140,12 @@ $(document).ready(function(){
 
        var currentEnd = new Point(xCoord,yCoord);
 
-        context.clearRect(0,0,500,500);
+       context.clearRect(0,0,500,500);
 
-        if( settings.isDrawing === true){
+       var deltaX = beginPoint.xCoord - currentEnd.xCoord;
+       var deltaY = beginPoint.yCoord - currentEnd.yCoord;
+
+       if( settings.isDrawing === true){
             if(settings.nextObject == "Rectangle"){
                 var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord, settings.nextColor);
                 tmpRect.draw(context);
@@ -151,7 +155,7 @@ $(document).ready(function(){
                 tmpLine.draw(context);
             }
             else if(settings.nextObject == "Circle"){
-                var radius = Math.abs((currentEnd.xCoord - beginPoint.xCoord)/2);
+                var radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
                 var tmpCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, radius);
                 tmpCircle.draw(context);
             }
@@ -159,9 +163,7 @@ $(document).ready(function(){
                 currentPen.addToLine(currentEnd);
                 currentPen.draw(context);
             }
-
         }
-
         drawCompleteCanvas();
 
     });
@@ -172,6 +174,10 @@ $(document).ready(function(){
         var xCoord = e.pageX - this.offsetLeft;
         var yCoord = e.pageY - this.offsetTop;
         var FinalEnd = new Point(xCoord,yCoord);
+
+        //circle calculations
+        var deltaX = beginPoint.xCoord - FinalEnd.xCoord;
+        var deltaY = beginPoint.yCoord - FinalEnd.yCoord;
 
         //var Image = settings.canvas.toDataURL();
         //document.getElementById('canvasImg').src = Image;
@@ -185,7 +191,8 @@ $(document).ready(function(){
             objectArray.push(newLine);
         }
         else if(settings.nextObject === "Circle"){
-            var newCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor);
+            var radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            var newCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor,radius);
             objectArray.push(newCircle);
         }
         else if(settings.nextObject === "Pen"){
@@ -239,9 +246,17 @@ $(document).ready(function(){
     });
 
     document.getElementById("undobutton").onclick = function(){undo()};
+    document.getElementById("redobutton").onclick = function(){redo()};
+
 
     function undo(){
-        objectArray.pop();
+        undoneObject = objectArray.pop();
+        context.clearRect(0,0,500,500);
+        drawCompleteCanvas();
+    }
+
+    function redo(){
+        objectArray.push(undoneObject);
         context.clearRect(0,0,500,500);
         drawCompleteCanvas();
     }
