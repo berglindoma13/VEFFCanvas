@@ -19,6 +19,24 @@
     top: 29px;
     left: 730px;
 }
+.textarea-custom{
+    position: relative;
+    top: 10px;
+    left: 760px;
+}
+.buttons{
+    position: relative;
+    top: 20px;
+    left: 700px;
+}
+#undobutton{
+    display: block;
+    margin-bottom: 7px;
+}
+
+#redobutton{
+    display: block;
+}
 
 #black{
     width: 15px;
@@ -45,4 +63,8 @@
     height: 15px;
     background-color: green;
     -webkit-appearance: none;
+}
+
+.floatleft{
+    float: left;
 }
