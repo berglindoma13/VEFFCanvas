@@ -85,19 +85,18 @@ class Circle extends Shape{
 }
 
 class Text extends Shape{
-    constructor(x,y,color,font,fontSize){
+    constructor(x,y,color,font,fontSize, sentence){
         super(x,y,color);
         this.font = font;
         this.fontSize = fontSize;
+        this.sentence = sentence;
     }
 
     draw(context){
-        context.strokeText("Text",this.xCoord,this.yCoord,10);
+        context.strokeText(this.sentence,this.xCoord,this.yCoord);
         //text calculating how much space a text needs
-        //context.measureText("Text");
+        context.measureText(this.sentence);
     }
-    //Attributes: Font, FontSize
-    //text drawing
 
 }
 
@@ -130,6 +129,7 @@ $(document).ready(function(){
         if(settings.nextObject == "Pen"){
             currentPen = new Pen(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor);
         }
+
 
     });
 
@@ -192,7 +192,8 @@ $(document).ready(function(){
             objectArray.push(currentPen);
         }
         else if(settings.nextObject === "Text"){
-            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, "font", 10);
+            var scentence = document.getElementById("textarea").value;
+            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, "font", 10, scentence);
             objectArray.push(newText);
 
         }
@@ -219,6 +220,7 @@ $(document).ready(function(){
         }
         else if(this.value === "Text"){
             settings.nextObject = "Text";
+            $("textarea").show();
         }
     });
 
@@ -231,6 +233,9 @@ $(document).ready(function(){
         }
         else if(this.value === "Blue"){
             settings.nextColor = "Blue";
+        }
+        else if(this.value == "Green"){
+            settings.nextColor = "Green";
         }
     });
 

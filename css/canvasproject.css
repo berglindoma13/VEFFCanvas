@@ -39,3 +39,10 @@
     background-color: blue;
     -webkit-appearance: none;
 }
+
+#green{
+    width: 15px;
+    height: 15px;
+    background-color: green;
+    -webkit-appearance: none;
+}
