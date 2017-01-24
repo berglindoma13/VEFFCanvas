@@ -29,7 +29,7 @@ class Rectangle extends Shape{
     }
 
     draw(context){
-        context.fillStyle = this.color;
+        context.strokeStyle = this.selectedColor;
         context.strokeRect(this.bottomLeft.xCoord,this.yCoord,this.topRight.xCoord - this.xCoord,this.bottomRight.yCoord - this.yCoord);
     }
 }
@@ -37,14 +37,26 @@ class Rectangle extends Shape{
 class Pen extends Shape{
     constructor(x,y,color){
         super(x,y,color);
+        this.points = [];
+        this.tmppoints = [];
     }
 
-    //line drawing
-    //draw for each two points in the points array for
-    /*context.beginPath();
-     context.moveTo(current.xCoord,current.yCoord);
-     context.lineTo(current.xCoord+10, current.yCoord+10);
-     context.stroke();*/
+    addToLine(p){
+        this.points.push(p);
+        this.tmppoints.push(p);
+    }
+
+    draw(context) {
+        //draw for each two points in the points array for
+        for(var i = 0; i < this.points.length; i++){
+            context.beginPath();
+            context.moveTo(this.tmppoints[i].xCoord,this.tmppoints[i].yCoord);
+            context.lineTo(this.tmppoints[i+1].xCoord, this.tmppoints[i+1].yCoord);
+            context.stroke();
+            this.tmppoints.shift();
+        }
+        this.tmppoints = this.points;
+    }
 }
 
 class Line extends Shape{
@@ -52,11 +64,10 @@ class Line extends Shape{
         super(x,y,color);
         this.endPoint = new Point(endx,endy);
     }
-    //line drawing
     draw(context){
         context.beginPath();
          context.moveTo(this.xCoord,this.yCoord);
-         context.fillStyle = this.color;
+         context.strokeStyle = this.selectedColor;
          context.lineTo(this.endPoint.xCoord, this.endPoint.yCoord);
          context.stroke();
     }
@@ -64,15 +75,17 @@ class Line extends Shape{
 
 
 class Circle extends Shape{
-    constructor(x,y,color){
+    constructor(x,y,color, radius){
         super(x,y,color);
+        this.radius = radius;
     }
 
-    //circle drawing
-    /*context.beginPath();
-     context.arc(current.xCoord,current.yCoord,10,0,2*Math.PI,false);
-     context.strokeStyle = "black";
-     context.stroke();*/
+    draw(context){
+        context.beginPath();
+        context.arc(this.xCoord,this.yCoord,this.radius,0,2*Math.PI,false);
+        context.strokeStyle = this.selectedColor;
+        context.stroke();
+    }
 }
 
 class Text{
@@ -86,18 +99,20 @@ class Text{
 
 var objectArray = [];
 
+
 $(document).ready(function(){
 
     var settings = {
         canvas : document.getElementById("MyCanvas1"),
-        nextObject : "Line",
-        nextColor : "Red",
+        nextObject : "Pen",
+        nextColor : "Black",
         isDrawing : false
     };
 
     var context = settings.canvas.getContext("2d");
 
     var beginPoint;
+    var currentPen;
 
 
     $("#MyCanvas1").mousedown(function(e){
@@ -107,6 +122,10 @@ $(document).ready(function(){
         beginPoint = new Point(xCoord,yCoord);
         settings.isDrawing = true;
 
+        if(settings.nextObject == "Pen"){
+            currentPen = new Pen(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor);
+        }
+
     });
 
     $("#MyCanvas1").mousemove(function(e){
@@ -114,7 +133,6 @@ $(document).ready(function(){
        var yCoord = e.pageY - this.offsetTop;
 
        var currentEnd = new Point(xCoord,yCoord);
-       console.log(xCoord);
 
         context.clearRect(0,0,500,500);
 
@@ -127,6 +145,15 @@ $(document).ready(function(){
             else if(settings.nextObject == "Line"){
                 var tmpLine = new Line(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, currentEnd.xCoord, currentEnd.yCoord);
                 tmpLine.draw(context);
+            }
+            else if(settings.nextObject == "Circle"){
+                var radius = Math.abs((currentEnd.xCoord - beginPoint.xCoord)/2);
+                var tmpCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, radius);
+                tmpCircle.draw(context);
+            }
+            else if(settings.nextObject == "Pen"){
+                currentPen.addToLine(new Point(currentEnd.xCoord, currentEnd.yCoord));
+                currentPen.draw(context);
             }
 
         }
@@ -141,7 +168,6 @@ $(document).ready(function(){
         var xCoord = e.pageX - this.offsetLeft;
         var yCoord = e.pageY - this.offsetTop;
         var FinalEnd = new Point(xCoord,yCoord);
-        console.log(xCoord);
 
         //var Image = settings.canvas.toDataURL();
         //document.getElementById('canvasImg').src = Image;
@@ -153,6 +179,13 @@ $(document).ready(function(){
         else if(settings.nextObject === "Line"){
             var newLine = new Line(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, FinalEnd.xCoord, FinalEnd.yCoord);
             objectArray.push(newLine);
+        }
+        else if(settings.nextObject === "Circle"){
+            var newCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor);
+            newCircle.draw(context);
+        }
+        else if(settings.nextObject === "Pen"){
+            currentPen.draw(context);
         }
     });
 
@@ -168,6 +201,21 @@ $(document).ready(function(){
         }
         else if (this.value == 'Line') {
             settings.nextObject = "Line";
+        }
+        else if(this.value === "Circle"){
+            settings.nextObject = "Circle";
+        }
+    });
+
+    $('input:radio[title=color]').change(function(){
+        if(this.value == "Black"){
+            settings.nextColor = "Black";
+        }
+        else if(this.value == "Red"){
+            settings.nextColor = "Red";
+        }
+        else if(this.value == "Blue"){
+            settings.nextColor = "Blue";
         }
     });
 
