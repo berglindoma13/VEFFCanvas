@@ -102,7 +102,7 @@ class Text extends Shape{
 
 
 var objectArray = [];
-var undoneObject;
+var undoneObject = [];
 
 
 $(document).ready(function(){
@@ -250,15 +250,20 @@ $(document).ready(function(){
 
 
     function undo(){
-        undoneObject = objectArray.pop();
-        context.clearRect(0,0,500,500);
-        drawCompleteCanvas();
+        if(objectArray.length > 0){
+            undoneObject.push(objectArray.pop());
+            context.clearRect(0,0,500,500);
+            drawCompleteCanvas();
+        }
     }
 
     function redo(){
-        objectArray.push(undoneObject);
-        context.clearRect(0,0,500,500);
-        drawCompleteCanvas();
+        if(undoneObject.length > 0){
+            objectArray.push(undoneObject.pop());
+            context.clearRect(0,0,500,500);
+            drawCompleteCanvas();
+        }
+
     }
 
 });
