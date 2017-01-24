@@ -7,17 +7,17 @@
 }
 
 .shapes{
-    position: fixed;
-    top: 50%;
-    left: 35%;
+    position: relative;
+    top: 550px;
+    left: 450px;
     float: left;
 }
 
-.prufa
+.colors
 {
-    position: fixed;
-    top: 50%;
-    left: 42%;
+    position: relative;
+    top: 530px;
+    left: 500px;
 }
 
 #black{
