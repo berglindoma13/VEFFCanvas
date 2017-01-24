@@ -61,7 +61,7 @@ $(document).ready(function(){
             context.fillStyle = nextColor;
             var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord);
             objectArray.push(tmpRect);
-            tmpRect.draw(context);
+            tmpRect.draw(context);  
         }
 
         //line drawing
