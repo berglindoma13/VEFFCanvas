@@ -85,11 +85,20 @@ class Circle extends Shape{
 }
 
 class Text{
+    constructor(x,y,color,font,fontSize){
+        super(x,y,color);
+        this.font = font;
+        this.fontSize = fontSize;
+    }
+
+    draw(context){
+        context.strokeText("Text",this.xCoord,this.yCoord,10);
+        //text calculating how much space a text needs
+        //context.measureText("Text");
+    }
     //Attributes: Font, FontSize
     //text drawing
-    /*context.strokeText("Text",current.xCoord,current.yCoord,10);
-     //text calculating how much space a text needs
-     context.measureText("Text");*/
+
 }
 
 
@@ -182,6 +191,9 @@ $(document).ready(function(){
         else if(settings.nextObject === "Pen"){
             objectArray.push(currentPen);
         }
+        else if(settings.nextObject === "Text"){
+            new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, "font", 10);
+        }
     });
 
     function drawCompleteCanvas(){
@@ -202,6 +214,9 @@ $(document).ready(function(){
         }
         else if(this.value === "Pen"){
             settings.nextObject = "Pen";
+        }
+        else if(this.value === "Text"){
+            settings.nextObject = "Text";
         }
     });
 
