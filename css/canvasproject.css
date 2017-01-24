@@ -21,12 +21,12 @@
 }
 .textarea-custom{
     position: relative;
-    top: 10px;
-    left: 760px;
+    top: -83px;
+    left: 886px;
 }
 .buttons{
     position: relative;
-    top: 20px;
+    top: -72px;
     left: 700px;
 }
 #undobutton{
