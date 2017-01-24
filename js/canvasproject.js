@@ -11,7 +11,6 @@ class Shape{
     }
 }
 
-
 class Point{
     constructor(x,y){
         this.xCoord = x;
@@ -38,31 +37,28 @@ class Pen extends Shape{
     constructor(x,y,color){
         super(x,y,color);
         this.points = [];
-        this.tmppoints = [];
     }
 
     addToLine(p){
         this.points.push(p);
-        this.tmppoints.push(p);
     }
 
     draw(context) {
         //draw for each two points in the points array for
-        for(var i = 0; i < this.points.length; i++){
+        for(var i = 0; i < this.points.length - 1; i++){
             context.beginPath();
-            context.moveTo(this.tmppoints[i].xCoord,this.tmppoints[i].yCoord);
-            context.lineTo(this.tmppoints[i+1].xCoord, this.tmppoints[i+1].yCoord);
+            context.strokeStyle = this.selectedColor;
+            context.moveTo(this.points[i].xCoord,this.points[i].yCoord);
+            context.lineTo(this.points[i+1].xCoord, this.points[i+1].yCoord);
             context.stroke();
-            this.tmppoints.shift();
         }
-        this.tmppoints = this.points;
     }
 }
 
 class Line extends Shape{
-    constructor(x,y,color, endx, endy){
+    constructor(x,y,color, endX, endY){
         super(x,y,color);
-        this.endPoint = new Point(endx,endy);
+        this.endPoint = new Point(endX,endY);
     }
     draw(context){
         context.beginPath();
@@ -138,7 +134,6 @@ $(document).ready(function(){
 
         if( settings.isDrawing === true){
             if(settings.nextObject == "Rectangle"){
-                //Rectangle drawing
                 var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord, settings.nextColor);
                 tmpRect.draw(context);
             }
@@ -152,7 +147,7 @@ $(document).ready(function(){
                 tmpCircle.draw(context);
             }
             else if(settings.nextObject == "Pen"){
-                currentPen.addToLine(new Point(currentEnd.xCoord, currentEnd.yCoord));
+                currentPen.addToLine(currentEnd);
                 currentPen.draw(context);
             }
 
@@ -182,10 +177,10 @@ $(document).ready(function(){
         }
         else if(settings.nextObject === "Circle"){
             var newCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor);
-            newCircle.draw(context);
+            objectArray.push(newCircle);
         }
         else if(settings.nextObject === "Pen"){
-            currentPen.draw(context);
+            objectArray.push(currentPen);
         }
     });
 
@@ -196,25 +191,28 @@ $(document).ready(function(){
     }
 
     $('input:radio[title=options]').change(function() {
-        if (this.value == 'Rectangle') {
+        if (this.value === 'Rectangle') {
             settings.nextObject = "Rectangle";
         }
-        else if (this.value == 'Line') {
+        else if (this.value === 'Line') {
             settings.nextObject = "Line";
         }
         else if(this.value === "Circle"){
             settings.nextObject = "Circle";
         }
+        else if(this.value === "Pen"){
+            settings.nextObject = "Pen";
+        }
     });
 
     $('input:radio[title=color]').change(function(){
-        if(this.value == "Black"){
+        if(this.value === "Black"){
             settings.nextColor = "Black";
         }
-        else if(this.value == "Red"){
+        else if(this.value === "Red"){
             settings.nextColor = "Red";
         }
-        else if(this.value == "Blue"){
+        else if(this.value === "Blue"){
             settings.nextColor = "Blue";
         }
     });
