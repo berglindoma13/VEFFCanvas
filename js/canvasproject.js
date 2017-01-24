@@ -29,8 +29,8 @@ class Rectangle extends Shape{
     }
 
     draw(context){
+        context.fillStyle = this.color;
         context.strokeRect(this.bottomLeft.xCoord,this.yCoord,this.topRight.xCoord - this.xCoord,this.bottomRight.yCoord - this.yCoord);
-
     }
 }
 
@@ -48,15 +48,20 @@ class Pen extends Shape{
 }
 
 class Line extends Shape{
-    constructor(x,y,color){
+    constructor(x,y,color, endx, endy){
         super(x,y,color);
+        this.endPoint = new Point(endx,endy);
     }
     //line drawing
-    /*context.beginPath();
-     context.moveTo(current.xCoord,current.yCoord);
-     context.lineTo(current.xCoord+10, current.yCoord+10);
-     context.stroke();*/
+    draw(context){
+        context.beginPath();
+         context.moveTo(this.xCoord,this.yCoord);
+         context.fillStyle = this.color;
+         context.lineTo(this.endPoint.xCoord, this.endPoint.yCoord);
+         context.stroke();
+    }
 }
+
 
 class Circle extends Shape{
     constructor(x,y,color){
@@ -85,10 +90,9 @@ $(document).ready(function(){
 
     var settings = {
         canvas : document.getElementById("MyCanvas1"),
-        nextObject : "Pen",
-        nextColor : "Black",
+        nextObject : "Line",
+        nextColor : "Red",
         isDrawing : false
-
     };
 
     var context = settings.canvas.getContext("2d");
@@ -109,34 +113,63 @@ $(document).ready(function(){
        var xCoord = e.pageX - this.offsetLeft;
        var yCoord = e.pageY - this.offsetTop;
 
-        var currentEnd = new Point(xCoord,yCoord);
+       var currentEnd = new Point(xCoord,yCoord);
+       console.log(xCoord);
 
         context.clearRect(0,0,500,500);
 
-        if( isDrawing === true){
-            //Rectangle drawing
-            context.fillStyle = settings.nextColor;
-            var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord);
-            objectArray.push(tmpRect);
-            tmpRect.draw(context);  
+        if( settings.isDrawing === true){
+            if(settings.nextObject == "Rectangle"){
+                //Rectangle drawing
+                var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord, settings.nextColor);
+                tmpRect.draw(context);
+            }
+            else if(settings.nextObject == "Line"){
+                var tmpLine = new Line(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, currentEnd.xCoord, currentEnd.yCoord);
+                tmpLine.draw(context);
+            }
+
         }
+
+        drawCompleteCanvas();
 
     });
 
     $("#MyCanvas1").mouseup(function(e){
         settings.isDrawing = false;
 
-        var Image = settings.canvas.toDataURL();
-        document.getElementById('canvasImg').src = Image;
+        var xCoord = e.pageX - this.offsetLeft;
+        var yCoord = e.pageY - this.offsetTop;
+        var FinalEnd = new Point(xCoord,yCoord);
+        console.log(xCoord);
 
-        //if (nextObject == "Rectangle"){}
+        //var Image = settings.canvas.toDataURL();
+        //document.getElementById('canvasImg').src = Image;
+
+        if (settings.nextObject === "Rectangle"){
+            var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,FinalEnd.xCoord,FinalEnd.yCoord, settings.nextColor);
+            objectArray.push(NewRect);
+        }
+        else if(settings.nextObject === "Line"){
+            var newLine = new Line(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, FinalEnd.xCoord, FinalEnd.yCoord);
+            objectArray.push(newLine);
+        }
     });
 
     function drawCompleteCanvas(){
-        context.clearRect(0,0,500,500);
         for(var i = 0; i < objectArray.length; i++){
-            console.log(objectArray[i]);
+            objectArray[i].draw(context);
         }
     }
+
+    $('input:radio[title=options]').change(function() {
+        if (this.value == 'Rectangle') {
+            settings.nextObject = "Rectangle";
+        }
+        else if (this.value == 'Line') {
+            settings.nextObject = "Line";
+        }
+    });
+
 });
 
