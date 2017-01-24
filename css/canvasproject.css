@@ -65,6 +65,8 @@
     -webkit-appearance: none;
 }
 
-.floatleft{
-    float: left;
+.prufa{
+    position: relative;
+    top: -220px;
+    left: 1080px;
 }
