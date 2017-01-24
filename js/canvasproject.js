@@ -84,7 +84,7 @@ class Circle extends Shape{
     }
 }
 
-class Text{
+class Text extends Shape{
     constructor(x,y,color,font,fontSize){
         super(x,y,color);
         this.font = font;
@@ -192,7 +192,9 @@ $(document).ready(function(){
             objectArray.push(currentPen);
         }
         else if(settings.nextObject === "Text"){
-            new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, "font", 10);
+            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, "font", 10);
+            objectArray.push(newText);
+
         }
     });
 
