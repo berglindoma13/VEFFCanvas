@@ -234,6 +234,9 @@ $(document).ready(function(){
         else if(this.value === "Blue"){
             settings.nextColor = "Blue";
         }
+        else if(this.value == "Green"){
+            settings.nextColor = "Green";
+        }
     });
 
 });
