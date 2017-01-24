@@ -6,27 +6,37 @@
     <meta charset="UTF-8">
     <title>VEFF Canvas Project</title>
     <link rel="stylesheet" href="css/canvasproject.css"/>
+    <link rel="stylesheet" href="css/bulma.css"/>
     <link rel="authors" href="Authors"/>
 </head>
 <body>
+<div>
     <canvas id="MyCanvas1" width="500" height="500">
 
     </canvas>
+</div>
+<div class="content is-small shapes">
     <form action = "">
-        <label>Object Options</label><br>
+        <label>Object Options<br>
         <input type="radio" name = "options" title = "options" value="Pen" checked = "checked">Pen<br>
         <input type = "radio" name = "options" title = "options" value ="Line" >Line<br>
         <input type = "radio" name = "options" title = "options" value = "Rectangle">Rectangle<br>
         <input type = "radio" name = "options" title = "options" value = "Circle">Circle<br>
         <input type = "radio" name = "options" title = "options" value = "Text">Text<br>
+        </label>
     </form>
-
+</div>
+    <br>
+<div class="content is-small prufa">
     <form action = "">
-        <label>Color Options</label><br>
-        <input type="radio" name = "color" title="color" value ="Black" checked = "checked">Black<br>
-        <input type="radio" name = "color" title="color" value="Red">Red<br>
-        <input type="radio" name = "color" title="color" value="Blue">Blue
+        <label >Color Options<br>
+        <input id="black" type="radio" name = "color" title="color" value ="Black" checked = "checked"><br>
+        <input id="red" type="radio" name = "color" title="color" value="Red"><br>
+        <input id="blue"type="radio" name = "color" title="color" value="Blue">
+        </label>
     </form>
+</div>
+
 
     <!--img id="canvasImg" alt="Right click to save me!"-->
 </body>
