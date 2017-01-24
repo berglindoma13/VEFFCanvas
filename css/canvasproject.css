@@ -1,23 +1,23 @@
 #MyCanvas1{
     border: 1px solid black;
-    position: fixed;
-    top: 4%;
-    left: 35%;
+    position: relative;
+    top: 30px;
+    left: 700px;
 
 }
 
 .shapes{
     position: relative;
-    top: 550px;
-    left: 450px;
+    top: 50px;
+    left: 700px;
     float: left;
 }
 
 .colors
 {
     position: relative;
-    top: 530px;
-    left: 500px;
+    top: 29px;
+    left: 730px;
 }
 
 #black{

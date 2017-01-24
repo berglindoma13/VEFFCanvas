@@ -220,7 +220,6 @@ $(document).ready(function(){
         }
         else if(this.value === "Text"){
             settings.nextObject = "Text";
-            $("textarea").show();
         }
     });
 
@@ -238,6 +237,14 @@ $(document).ready(function(){
             settings.nextColor = "Green";
         }
     });
+
+    document.getElementById("undobutton").onclick = function(){undo()};
+
+    function undo(){
+        objectArray.pop();
+        context.clearRect(0,0,500,500);
+        drawCompleteCanvas();
+    }
 
 });
 
