@@ -1,3 +1,48 @@
 #MyCanvas1{
     border: 1px solid black;
+    position: fixed;
+    top: 4%;
+    left: 35%;
+
+}
+
+.shapes{
+    position: fixed;
+    top: 50%;
+    left: 35%;
+    float: left;
+}
+
+.prufa
+{
+    position: fixed;
+    top: 50%;
+    left: 42%;
+}
+
+#black{
+    width: 15px;
+    height: 15px;
+    background-color: black;
+    -webkit-appearance: none;
+}
+
+#red{
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    -webkit-appearance: none;
+}
+#blue{
+    width: 15px;
+    height: 15px;
+    background-color: blue;
+    -webkit-appearance: none;
+}
+
+#green{
+    width: 15px;
+    height: 15px;
+    background-color: green;
+    -webkit-appearance: none;
 }
