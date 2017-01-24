@@ -1,23 +1,23 @@
 #MyCanvas1{
     border: 1px solid black;
-    position: fixed;
-    top: 4%;
-    left: 35%;
+    position: relative;
+    top: 30px;
+    left: 700px;
 
 }
 
 .shapes{
-    position: fixed;
-    top: 50%;
-    left: 35%;
+    position: relative;
+    top: 50px;
+    left: 700px;
     float: left;
 }
 
-.prufa
+.colors
 {
-    position: fixed;
-    top: 50%;
-    left: 42%;
+    position: relative;
+    top: 29px;
+    left: 730px;
 }
 
 #black{
