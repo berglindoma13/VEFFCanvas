@@ -64,6 +64,7 @@ $(document).ready(function(){
             tmpRect.draw(context);  
         }
 
+
         //line drawing
         /*context.beginPath();
         context.moveTo(current.xCoord,current.yCoord);
@@ -87,6 +88,8 @@ $(document).ready(function(){
         for(var i = 0; i < objectArray.length; i++){
             console.log(objectArray[i]);
         }
+        var Image = canvas.toDataURL();
+        document.getElementById('canvasImg').src = Image;
 
         //if (nextObject == "Rectangle"){}
     });
