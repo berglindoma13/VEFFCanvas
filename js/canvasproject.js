@@ -4,10 +4,11 @@
 
 //To save, use json object. There is an api to call when saving or loading data
 class Shape{
-    constructor(x,y,color){
+    constructor(x,y,color, lineWidth){
         this.xCoord = x;
         this.yCoord = y;
         this.selectedColor = color;
+        this.lineWidth = lineWidth;
     }
 }
 
@@ -85,17 +86,15 @@ class Circle extends Shape{
 }
 
 class Text extends Shape{
-    constructor(x,y,color,font,fontSize, sentence){
+    constructor(x,y,color,font, sentence){
         super(x,y,color);
         this.font = font;
-        this.fontSize = fontSize;
         this.sentence = sentence;
     }
 
     draw(context){
-        context.strokeText(this.sentence,this.xCoord,this.yCoord);
-        //text calculating how much space a text needs
-        context.measureText(this.sentence);
+        context.font = this.font;
+        context.fillText(this.sentence,this.xCoord,this.yCoord);
     }
 
 }
@@ -111,7 +110,10 @@ $(document).ready(function(){
         canvas : document.getElementById("MyCanvas1"),
         nextObject : "Pen",
         nextColor : "Black",
-        isDrawing : false
+        isDrawing : false,
+        lineWidth : "1px",
+        textSize : "10px",
+        textFont : "sans-serif"
     };
 
     var context = settings.canvas.getContext("2d");
@@ -142,8 +144,8 @@ $(document).ready(function(){
 
        context.clearRect(0,0,500,500);
 
-       var deltaX = beginPoint.xCoord - currentEnd.xCoord;
-       var deltaY = beginPoint.yCoord - currentEnd.yCoord;
+       var deltaX = 1;//beginPoint.xCoord;// - currentEnd.xCoord;
+       var deltaY = 1;//beginPoint.yCoord;// - currentEnd.yCoord;
 
        if( settings.isDrawing === true){
             if(settings.nextObject == "Rectangle"){
@@ -200,7 +202,9 @@ $(document).ready(function(){
         }
         else if(settings.nextObject === "Text"){
             var scentence = document.getElementById("textarea").value;
-            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, "font", 10, scentence);
+            var font = settings.textSize + " " + settings.textFont;
+            console.log(font);
+            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, font, scentence);
             objectArray.push(newText);
 
         }
@@ -213,36 +217,19 @@ $(document).ready(function(){
     }
 
     $('input:radio[title=options]').change(function() {
-        if (this.value === 'Rectangle') {
-            settings.nextObject = "Rectangle";
-        }
-        else if (this.value === 'Line') {
-            settings.nextObject = "Line";
-        }
-        else if(this.value === "Circle"){
-            settings.nextObject = "Circle";
-        }
-        else if(this.value === "Pen"){
-            settings.nextObject = "Pen";
-        }
-        else if(this.value === "Text"){
-            settings.nextObject = "Text";
-        }
+        settings.nextObject = this.value;
     });
 
     $('input:radio[title=color]').change(function(){
-        if(this.value === "Black"){
-            settings.nextColor = "Black";
-        }
-        else if(this.value === "Red"){
-            settings.nextColor = "Red";
-        }
-        else if(this.value === "Blue"){
-            settings.nextColor = "Blue";
-        }
-        else if(this.value == "Green"){
-            settings.nextColor = "Green";
-        }
+        settings.nextColor = this.value;
+    });
+
+    $('#textSize').change(function(){
+        settings.textSize = this.value;
+    });
+
+    $('#fontStyle').change(function(){
+        settings.textFont = this.value;
     });
 
     document.getElementById("undobutton").onclick = function(){undo()};
