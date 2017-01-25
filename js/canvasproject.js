@@ -203,10 +203,8 @@ $(document).ready(function(){
         else if(settings.nextObject === "Text"){
             var scentence = document.getElementById("textarea").value;
             var font = settings.textSize + " " + settings.textFont;
-            console.log(font);
             var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, font, scentence);
             objectArray.push(newText);
-
         }
     });
 
