@@ -150,7 +150,7 @@ $(document).ready(function(){
 
        var currentEnd = new Point(xCoord,yCoord);
 
-       context.clearRect(0,0,500,500);
+       context.clearRect(0,0,700,700);
 
        var deltaX = 1;//beginPoint.xCoord;// - currentEnd.xCoord;
        var deltaY = 1;//beginPoint.yCoord;// - currentEnd.yCoord;
@@ -249,7 +249,7 @@ $(document).ready(function(){
     function undo(){
         if(objectArray.length > 0){
             undoneObject.push(objectArray.pop());
-            context.clearRect(0,0,500,500);
+            context.clearRect(0,0,700,700);
             drawCompleteCanvas();
         }
     }
@@ -257,12 +257,12 @@ $(document).ready(function(){
     function redo(){
         if(undoneObject.length > 0){
             objectArray.push(undoneObject.pop());
-            context.clearRect(0,0,500,500);
+            context.clearRect(0,0,700,700);
             drawCompleteCanvas();
         }
 
     }
-
+  
     function selectMove(pos){
         $("#MyCanvas1").mousemove(function(e){
             //console.log(pos);
