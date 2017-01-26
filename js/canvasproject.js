@@ -227,9 +227,13 @@ $(document).ready(function(){
         settings.nextObject = this.value;
     });
 
-    $('input:radio[title=color]').change(function(){
-        settings.nextColor = this.value;
-    });
+   $("#colorpicker").spectrum({
+	    preferredFormat: "hex",
+	    showInput: true,
+	    showPalette: true,
+		move: function(tinycolor) { settings.nextColor = this.value;},
+	    hide: function(tinycolor) { settings.nextColor = this.value;},
+	});
 
     $('#textSize').change(function(){
         settings.textSize = this.value;

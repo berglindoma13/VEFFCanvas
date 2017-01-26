@@ -2,12 +2,14 @@
 <html lang="en">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 <script src="js/canvasproject.js"></script>
+<script src='js/spectrum.js'></script>
 <head>
     <meta charset="UTF-8">
     <title>VEFF Canvas Project</title>
     <link rel="stylesheet" href="css/canvasproject.css"/>
     <link rel="stylesheet" href="css/bulma.css"/>
     <link rel="authors" href="Authors"/>
+    <link rel='stylesheet' href='css/spectrum.css' />
 </head>
 <body style="background-image:url(blue-watercolor-background_1116-82.jpg)">
 <div>
@@ -30,11 +32,8 @@
     <br>
 <div class="content is-small colors">
     <form action="">
-        <label >Color Options<br>
-            <input id="black" type="radio" name = "color" title="color" value ="Black" checked = "checked"><br>
-            <input id="red" type="radio" name = "color" title="color" value="Red"><br>
-            <input id="blue" type="radio" name = "color" title="color" value="Blue"><br>
-            <input id="green" type="radio" name = "color" title="color" value="Green">
+        <label >Color picker<br>
+            <input type='text' value='black' id="colorpicker" />
         </label>
     </form>
 </div>
@@ -47,7 +46,7 @@
     <button type = "button" title = "undobutton" id = "undobutton">UNDO</button>
     <button type = "button" title = redobutton" id="redobutton">REDO</button>
 </div>
-<div class="content is-small prufa">
+<div class="content is-small fonts">
     <form action="">
         <label>Font size <br>
             <select id ="textSize" name="textSize">

@@ -28,12 +28,13 @@ body{
 }
 .textarea-custom{
     position: relative;
-    top: -83px;
-    left: 886px;
+    top: -38px;
+    left: 808px;
+    margin-left: 66px;
 }
 .buttons{
     position: relative;
-    top: -72px;
+    top: -15px;
     left: 700px;
 }
 #undobutton{
@@ -72,8 +73,8 @@ body{
     -webkit-appearance: none;
 }
 
-.prufa{
+.fonts{
     position: relative;
-    top: -220px;
+    top: -177px;
     left: 1080px;
 }
