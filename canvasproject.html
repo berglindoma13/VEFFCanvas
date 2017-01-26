@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
-<script src="js/canvasproject.js"></script>
-<script src='js/spectrum.js'></script>
-<head>
-    <meta charset="UTF-8">
-    <title>VEFF Canvas Project</title>
-    <link rel="stylesheet" href="css/canvasproject.css"/>
-    <link rel="stylesheet" href="css/bulma.css"/>
-    <link rel="authors" href="Authors"/>
-    <link rel='stylesheet' href='css/spectrum.css' />
-</head>
-<body style="background-image:url(blue-watercolor-background_1116-82.jpg)">
-<div>
-    <canvas id="MyCanvas1" width="500" height="500">
+    <head>
+        <meta charset="UTF-8">
+        <title>VEFF Canvas Project</title>
+        <link rel="stylesheet" href="css/canvasproject.css"/>
+        <link rel="stylesheet" href="css/bulma.css"/>
+        <link rel="authors" href="Authors"/>
+        <link rel='stylesheet' href='css/spectrum.css' />
+    </head>
+    <body style="background-image:url(blue-watercolor-background_1116-82.jpg)">
+        <div>
+            <canvas id="MyCanvas1" width="500" height="500">
 
-    </canvas>
-</div>
-<div class="content is-small shapes">
-    <form action = "">
-        <label>Object Options<br>
-            <input type="radio" name = "options" title = "options" value="Pen" checked = "checked">Pen<br>
-            <input type = "radio" name = "options" title = "options" value ="Line" >Line<br>
-            <input type = "radio" name = "options" title = "options" value = "Rectangle">Rectangle<br>
-            <input type = "radio" name = "options" title = "options" value = "Circle">Circle<br>
-            <input type = "radio" name = "options" title = "options" value = "Text">Text<br>
-            <input type = "radio" name = "options" title = "options" value = "Select">Select<br>
-        </label>
-    </form>
-</div>
-    <br>
-<div class="content is-small colors">
-    <form action="">
-        <label >Color picker<br>
-            <input type='text' value='black' id="colorpicker" />
-        </label>
-    </form>
-</div>
-<div class="content is-small textarea-custom">
-    <label >Text input<br>
-    <textarea title = "textarea" id = "textarea" rows = "4" cols ="25"></textarea>
-    </label>
-</div>
-<div class="buttons">
-    <button type = "button" title = "undobutton" id = "undobutton">UNDO</button>
-    <button type = "button" title = redobutton" id="redobutton">REDO</button>
-</div>
-<div class="content is-small fonts">
-    <form action="">
-        <label>Font size <br>
-            <select id ="textSize" name="textSize">
-                <option title="pixel" value="10px">10px</option>
-                <option title="pixel" value="12px">12px</option>
-                <option title="pixel" value="16px">16px</option>
-                <option title="pixel" value="18px">18px</option>
-                <option title="pixel" value="20px">20px</option>
-                <option title="pixel" value="24px">24px</option>
-                <option title="pixel" value="35px">35px</option>
-                <option title="pixel" value="46px">46px</option>
-                <option title="pixel" value="52px">52px</option>
-                <option title="pixel" value="60px">60px</option>
-                <option title="pixel" value="72px">72px</option>
-            </select>
-        </label>
-        <br>
-        <label> Font style<br>
-            <select id = "fontStyle" name="fontStyle">
-                <option title = "fontStyle" value="sans-serif">Sans Serif</option>
-                <option title = "fontStyle" value="Times">Times New Roman</option>
-                <option title = "fontStyle" value="Georgia">Georgia</option>
-                <option title = "fontStyle" value="Arial">Arial</option>
-                <option title = "fontStyle" value="Tahoma">Tahoma</option>
-            </select>
+            </canvas>
+        </div>
+        <div class="content is-small shapes">
+            <form action = "">
+                <label>Object Options<br>
+                    <input type="radio" name = "options" title = "options" value="Pen" checked = "checked">Pen<br>
+                    <input type = "radio" name = "options" title = "options" value ="Line" >Line<br>
+                    <input type = "radio" name = "options" title = "options" value = "Rectangle">Rectangle<br>
+                    <input type = "radio" name = "options" title = "options" value = "Circle">Circle<br>
+                    <input type = "radio" name = "options" title = "options" value = "Text">Text<br>
+                    <input type = "radio" name = "options" title = "options" value = "Select">Select<br>
+                </label>
+            </form>
+        </div>
+            <br>
+        <div class="content is-small colors">
+            <form action="">
+                <label >Color picker<br>
+                    <input type='text' value='black' id="colorpicker" />
+                </label>
+            </form>
+        </div>
+        <div class="content is-small textarea-custom">
+            <label >Text input<br>
+            <textarea title = "textarea" id = "textarea" rows = "4" cols ="25"></textarea>
+            </label>
+        </div>
+        <div class="buttons">
+            <button type = "button" title = "undobutton" id = "undobutton">UNDO</button>
+            <button type = "button" title = redobutton" id="redobutton">REDO</button>
+        </div>
+        <div class="content is-small fonts">
+            <form action="">
+                <label>Font size <br>
+                    <select id ="textSize" name="textSize">
+                        <option title="pixel" value="10px">10px</option>
+                        <option title="pixel" value="12px">12px</option>
+                        <option title="pixel" value="16px">16px</option>
+                        <option title="pixel" value="18px">18px</option>
+                        <option title="pixel" value="20px">20px</option>
+                        <option title="pixel" value="24px">24px</option>
+                        <option title="pixel" value="35px">35px</option>
+                        <option title="pixel" value="46px">46px</option>
+                        <option title="pixel" value="52px">52px</option>
+                        <option title="pixel" value="60px">60px</option>
+                        <option title="pixel" value="72px">72px</option>
+                    </select>
+                </label>
+                <br>
+                <label> Font style<br>
+                    <select id = "fontStyle" name="fontStyle">
+                        <option title = "fontStyle" value="sans-serif">Sans Serif</option>
+                        <option title = "fontStyle" value="Times">Times New Roman</option>
+                        <option title = "fontStyle" value="Georgia">Georgia</option>
+                        <option title = "fontStyle" value="Arial">Arial</option>
+                        <option title = "fontStyle" value="Tahoma">Tahoma</option>
+                    </select>
 
-        </label>
-    </form>
+                </label>
+            </form>
 
-</div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+        <script src="js/canvasproject.js"></script>
+        <script src='js/spectrum.js'></script>
 
-    <!--img id="canvasImg" alt="Right click to save me!"-->
-</body>
+            <!--img id="canvasImg" alt="Right click to save me!"-->
+    </body>
 </html>

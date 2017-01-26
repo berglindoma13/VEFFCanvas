@@ -1,4 +1,4 @@
-body{
+body {
     background-image: url("blue-watercolor-background_1116-82.jpg");
     background-size: cover;
 
@@ -46,35 +46,12 @@ body{
     display: block;
 }
 
-#black{
-    width: 15px;
-    height: 15px;
-    background-color: black;
-    -webkit-appearance: none;
-}
-
-#red{
-    width: 15px;
-    height: 15px;
-    background-color: red;
-    -webkit-appearance: none;
-}
-#blue{
-    width: 15px;
-    height: 15px;
-    background-color: blue;
-    -webkit-appearance: none;
-}
-
-#green{
-    width: 15px;
-    height: 15px;
-    background-color: green;
-    -webkit-appearance: none;
-}
-
 .fonts{
     position: relative;
     top: -177px;
     left: 1080px;
+}
+
+textarea {
+   resize: none;
 }

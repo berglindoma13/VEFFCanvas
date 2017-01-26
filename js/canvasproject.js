@@ -96,7 +96,6 @@ class Text extends Shape{
         context.font = this.font;
         context.fillText(this.sentence,this.xCoord,this.yCoord);
     }
-
 }
 
 
