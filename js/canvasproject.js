@@ -93,6 +93,7 @@ class Text extends Shape{
     }
 
     draw(context){
+        context.fillStyle = this.selectedColor;
         context.font = this.font;
         context.fillText(this.sentence,this.xCoord,this.yCoord);
     }
