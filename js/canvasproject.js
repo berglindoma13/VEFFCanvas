@@ -132,6 +132,15 @@ $(document).ready(function(){
         if(settings.nextObject == "Pen"){
             currentPen = new Pen(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor);
         }
+        else if(settings.nextObject === "Select"){
+            var pos = new Point(xCoord, yCoord);
+            for(var i = 0; i < objectArray.length; i++){
+                if(objectArray[i].xCoord == pos.xCoord){
+                    console.log(objectArray[i]);
+                }
+            }
+            //selectMove(pos);
+        }
 
 
     });
@@ -249,6 +258,13 @@ $(document).ready(function(){
             drawCompleteCanvas();
         }
 
+    }
+
+    function selectMove(pos){
+        $("#MyCanvas1").mousemove(function(e){
+            //console.log(pos);
+
+        });
     }
 
 });
