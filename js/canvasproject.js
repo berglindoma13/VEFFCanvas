@@ -244,7 +244,32 @@ $(document).ready(function(){
 
     document.getElementById("undobutton").onclick = function(){undo()};
     document.getElementById("redobutton").onclick = function(){redo()};
+    document.getElementById("savebutton").onclick = function(){save()};
 
+    function save(){
+        var drawing = {
+            title: "ThisTitle",
+            content: objectArray
+        };
+
+        var url = "http://localhost:3000/api/drawings";
+
+        $("#save").click(function(){
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                data: JSON.stringify(drawing),
+                success: function(data){
+                    console.log(data);
+                    console.log('The drawing was saved');
+                },
+                error: function(xhr, err){
+                    console.log('Something went wrong, your draving could not be saved');
+                }
+            });
+        });
+    }
 
     function undo(){
         if(objectArray.length > 0){
