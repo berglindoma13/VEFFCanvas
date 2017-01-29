@@ -44,17 +44,38 @@ class Point{
 }
 
 class Rectangle extends Shape{
-    constructor(x1,y1,x2,y2,color, lineWidth){
-        super(x1,y1,color,lineWidth);
-        this.topRight = new Point(x2,y1);
-        this.bottomLeft = new Point(x1,y2);
-        this.bottomRight = new Point(x2,y2);
+    constructor(x,y,width,height,color, lineWidth){
+        super(x,y,color,lineWidth);
+        this.width = width;
+        this.height = height;
     }
 
     draw(context){
         context.lineWidth=this.lineWidth;
         context.strokeStyle = this.selectedColor;
-        context.strokeRect(this.bottomLeft.xCoord,this.yCoord,this.topRight.xCoord - this.xCoord,this.bottomRight.yCoord - this.yCoord);
+        context.strokeRect(this.xCoord,this.yCoord,this.width,this.height);
+    }
+
+    inside(xpos, ypos){
+        var rightSide = this.xCoord + this.width;
+        var bottomSide = this.yCoord + this.height;
+
+        var xdistance = rightSide - this.xCoord;
+        var ydistance = bottomSide - this.yCoord;
+
+        //console.log(xdistance);
+        //console.log(ydistance);
+
+        var xposdistance = rightSide - xpos;
+        var yposdistance = bottomSide - ypos;
+
+        //console.log(xposdistance);
+        //console.log(yposdistance);
+
+        if((xposdistance < xdistance) && (yposdistance < ydistance) && (xposdistance > 0) && (yposdistance > 0)){
+            return true;
+        }
+        return false;
     }
 }
 
@@ -190,7 +211,9 @@ $(document).ready(function(){
 
        if( settings.isDrawing === true){
             if(settings.nextObject === "Rectangle"){
-                var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,currentEnd.xCoord,currentEnd.yCoord, settings.nextColor,settings.lineWidth);
+                var width = Math.abs(currentEnd.xCoord - beginPoint.xCoord);
+                var height = Math.abs(currentEnd.yCoord - beginPoint.yCoord);
+                var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
                 tmpRect.draw(context);
             }
             else if(settings.nextObject === "Line"){
@@ -210,8 +233,8 @@ $(document).ready(function(){
             }
             else if(settings.nextObject === "Select"){
                 if(settings.isDragging){
-                    settings.selectedObject.xCoord = xCoord - settings.dragOffsetX;
-                    settings.selectedObject.yCoord = yCoord - settings.dragOffsetY;
+                    settings.selectedObject.xCoord = currentEnd.xCoord - settings.dragOffsetX;
+                    settings.selectedObject.yCoord = currentEnd.yCoord - settings.dragOffsetY;
                 }
             }
         }
@@ -231,7 +254,9 @@ $(document).ready(function(){
         //document.getElementById('canvasImg').src = Image;
 
         if (settings.nextObject === "Rectangle"){
-            var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,FinalEnd.xCoord,FinalEnd.yCoord, settings.nextColor,settings.lineWidth);
+            var width = Math.abs(FinalEnd.xCoord - beginPoint.xCoord);
+            var height = Math.abs(FinalEnd.yCoord - beginPoint.yCoord);
+            var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
             objectArray.push(NewRect);
         }
         else if(settings.nextObject === "Line"){
@@ -295,14 +320,13 @@ $(document).ready(function(){
     function selectMove(pos){
 
         for(var i = 0; i < objectArray.length; i++){
-            console.log(objectArray[i]);
             if(objectArray[i].inside(pos.xCoord, pos.yCoord)){
-                console.log("here");
               var mySelection = objectArray[i];
                 settings.dragOffsetX = pos.xCoord - mySelection.xCoord;
                 settings.dragOffsetY = pos.yCoord - mySelection.yCoord;
                 settings.isDragging = true;
                 settings.selectedObject = mySelection;
+                return;
             }
         }
     }
