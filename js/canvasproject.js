@@ -60,19 +60,14 @@ class Rectangle extends Shape{
         var rightSide = this.xCoord + this.width;
         var bottomSide = this.yCoord + this.height;
 
-        var xdistance = rightSide - this.xCoord;
-        var ydistance = bottomSide - this.yCoord;
+        var xDistance = rightSide - this.xCoord;
+        var yDistance = bottomSide - this.yCoord;
 
-        //console.log(xdistance);
-        //console.log(ydistance);
 
-        var xposdistance = rightSide - xpos;
-        var yposdistance = bottomSide - ypos;
+        var xPosDistance = rightSide - xpos;
+        var yPosDistance = bottomSide - ypos;
 
-        //console.log(xposdistance);
-        //console.log(yposdistance);
-
-        if((xposdistance < xdistance) && (yposdistance < ydistance) && (xposdistance > 0) && (yposdistance > 0)){
+        if((xPosDistance < xDistance) && (yPosDistance < yDistance) && (xPosDistance > 0) && (yPosDistance > 0)){
             return true;
         }
         return false;
@@ -115,22 +110,75 @@ class Line extends Shape{
         context.lineTo(this.endPoint.xCoord, this.endPoint.yCoord);
         context.stroke();
     }
+
+    inside(xpos, ypos){
+
+        var dxc = xpos - this.xCoord;
+        var dyc = ypos - this.yCoord;
+
+        var dxl = this.endPoint.xCoord - this.xCoord;
+        var dyl = this.endPoint.yCoord - this.yCoord;
+
+        var cross = dxc * dyl - dyc * dxl;
+
+        if(cross !== 0){
+            return false;
+        }
+
+        return true;
+
+    }
 }
 
 
 
 
 class Text extends Shape{
-    constructor(x,y,color,font, sentence){
+    constructor(x,y,color,fontStyle,fontSize, sentence){
         super(x,y,color);
-        this.font = font;
+        this.fontStyle = fontStyle;
+        this.fontSize = fontSize;
         this.sentence = sentence;
+        this.textBox = new Rectangle(0,0,0,0,0,0);
     }
 
     draw(context){
         context.fillStyle = this.selectedColor;
-        context.font = this.font;
+
+        //create a virtual box around text to be able to drag and drop the item
+        var textMeasurements = context.measureText(this.sentence);
+        this.textBox.xCoord = this.xCoord;
+        this.textBox.yCoord = this.yCoord - this.fontSize;
+        this.textBox.width = textMeasurements.width;
+        this.textBox.height = this.fontSize;
+        this.textBox.selectedColor = "White";
+        this.textBox.lineWidth = 1;
+
+        var font = this.fontSize + "px" + " " + this.fontStyle;
+        context.font = font;
         context.fillText(this.sentence,this.xCoord,this.yCoord);
+
+    }
+
+    inside(xpos, ypos){
+
+        console.log(this.textBox);
+        console.log(xpos);
+        console.log(ypos);
+
+        var rightSide = this.textBox.xCoord + this.textBox.width;
+        var bottomSide = this.textBox.yCoord + this.textBox.height;
+
+        var xDistance = rightSide - this.textBox.xCoord;
+        var yDistance = bottomSide - this.textBox.yCoord;
+
+        var xPosDistance = rightSide - xpos;
+        var yPosDistance = bottomSide - ypos;
+
+        if((xPosDistance < xDistance) && (yPosDistance < yDistance) && (xPosDistance > 0) && (yPosDistance > 0)){
+            return true;
+        }
+        return false;
     }
 }
 
@@ -276,8 +324,7 @@ $(document).ready(function(){
         }
         else if(settings.nextObject === "Text"){
             var scentence = document.getElementById("textarea").value;
-            var font = settings.textSize + " " + settings.textFont;
-            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, font, scentence);
+            var newText = new Text(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, settings.textFont,settings.textSize, scentence);
             objectArray.push(newText);
         }
         drawCompleteCanvas();
