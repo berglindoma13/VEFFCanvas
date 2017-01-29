@@ -52,6 +52,13 @@ body {
     left: 1080px;
 }
 
+.lineWidth{
+    position: relative;
+    top : 106px;
+    left : 600px;
+
+}
+
 textarea {
    resize: none;
 }
