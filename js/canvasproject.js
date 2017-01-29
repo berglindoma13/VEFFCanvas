@@ -175,6 +175,7 @@ class Text extends Shape{
         var xPosDistance = rightSide - xpos;
         var yPosDistance = bottomSide - ypos;
 
+
         if((xPosDistance < xDistance) && (yPosDistance < yDistance) && (xPosDistance > 0) && (yPosDistance > 0)){
             return true;
         }
@@ -340,14 +341,7 @@ $(document).ready(function(){
         settings.nextObject = this.value;
     });
 
-
-
-
-    document.getElementById("undobutton").onclick = function(){undo()};
-    document.getElementById("redobutton").onclick = function(){redo()};
-    document.getElementById("savebutton").onclick = function(){save()};
-
-    function save(){
+    $("#savebutton").click(function(){
         var drawing = {
             title: "ThisTitle",
             content: objectArray
@@ -355,22 +349,25 @@ $(document).ready(function(){
 
         var url = "http://localhost:3000/api/drawings";
 
-        $("#save").click(function(){
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                url: url,
-                data: JSON.stringify(drawing),
-                success: function(data){
-                    console.log(data);
-                    console.log('The drawing was saved');
-                },
-                error: function(xhr, err){
-                    console.log('Something went wrong, your draving could not be saved');
-                }
-            });
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: url,
+            data: JSON.stringify(drawing),
+            success: function (data) {
+                console.log(data);
+                console.log('The drawing was saved');
+            },
+            error: function (xhr, err) {
+                console.log('Something went wrong, your draving could not be saved');
+            }
         });
-    }
+    });
+
+
+    document.getElementById("undobutton").onclick = function(){undo()};
+    document.getElementById("redobutton").onclick = function(){redo()};
+
 
     function undo(){
         if(objectArray.length > 0){
