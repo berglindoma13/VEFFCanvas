@@ -16,6 +16,7 @@ class Circle extends Shape{
     constructor(x,y,color, radius,lineWidth){
         super(x,y,color,lineWidth);
         this.radius = radius;
+        this.type = "Circle";
     }
 
     draw(context){
@@ -48,6 +49,7 @@ class Rectangle extends Shape{
         super(x,y,color,lineWidth);
         this.width = width;
         this.height = height;
+        this.type = "Rectangle";
     }
 
     draw(context){
@@ -78,6 +80,7 @@ class Pen extends Shape{
     constructor(x,y,color,lineWidth){
         super(x,y,color,lineWidth);
         this.points = [];
+        this.type = "Pen";
     }
 
     addToLine(p){
@@ -87,6 +90,7 @@ class Pen extends Shape{
     draw(context) {
         //draw for each two points in the points array for
         for(var i = 0; i < this.points.length - 1; i++){
+            console.log("here");
             context.beginPath();
             context.lineWidth=this.lineWidth;
             context.strokeStyle = this.selectedColor;
@@ -101,6 +105,7 @@ class Line extends Shape{
     constructor(x,y,color, endX, endY,lineWidth){
         super(x,y,color,lineWidth);
         this.endPoint = new Point(endX,endY);
+        this.type = "Line";
     }
     draw(context){
         context.beginPath();
@@ -140,6 +145,7 @@ class Text extends Shape{
         this.fontSize = fontSize;
         this.sentence = sentence;
         this.textBox = new Rectangle(0,0,0,0,0,0);
+        this.type = "Text";
     }
 
     draw(context){
@@ -299,9 +305,6 @@ $(document).ready(function(){
         var yCoord = e.pageY - this.offsetTop;
         var FinalEnd = new Point(xCoord,yCoord);
 
-        //var Image = settings.canvas.toDataURL();
-        //document.getElementById('canvasImg').src = Image;
-
         if (settings.nextObject === "Rectangle"){
             var width = Math.abs(FinalEnd.xCoord - beginPoint.xCoord);
             var height = Math.abs(FinalEnd.yCoord - beginPoint.yCoord);
@@ -342,8 +345,9 @@ $(document).ready(function(){
     });
 
     $("#savebutton").click(function(){
+        var title = prompt("Please enter a title to save");
         var drawing = {
-            title: "ThisTitle",
+            title : title,
             content: objectArray
         };
 
@@ -355,13 +359,70 @@ $(document).ready(function(){
             url: url,
             data: JSON.stringify(drawing),
             success: function (data) {
-                console.log(data);
-                console.log('The drawing was saved');
+                alert("Your canvas has been saved");
             },
             error: function (xhr, err) {
-                console.log('Something went wrong, your draving could not be saved');
+                alert('Something went wrong, your draving could not be saved');
             }
         });
+    });
+
+    $('#loadbutton').click(function(){
+        var title = prompt("Please enter the name of the canvas");
+        var id = "";
+
+        var url = "http://localhost:3000/api/drawings/";
+
+        $.ajax({
+           type : "GET",
+            contentType : "application/json; charset=utf-8",
+            url : url,
+            success : function(data){
+               for(var j = 0; j < data.length; j++){
+                   if(data[j].title === title){
+                       var tmpid = data[j].id;
+                       id = tmpid.toString();
+                   }
+               }
+            }
+        });
+
+        $.ajax({
+            type : "GET",
+            contentType: "application/json; charset=utf-8",
+            url : url + id,
+            success : function(data){
+                var newArray = [];
+                for(var i = 0; i < data.content.length; i++){
+                    if(data.content[i].type === "Pen"){
+                        var tmpPen = new Pen(data.content[i].xCoord, data.content[i].yCoord,data.content[i].selectedColor,data.content[i].lineWidth);
+                        tmpPen.points = data.content[i].points;
+                        newArray.push(tmpPen);
+                    }
+                    else if(data.content[i].type === "Rectangle"){
+                        var tmpRect = new Rectangle(data.content[i].xCoord, data.content[i].yCoord, data.content[i].width, data.content[i].height, data.content[i].selectedColor, data.content[i].lineWidth);
+                        newArray.push(tmpRect);
+                    }
+                    else if(data.content[i].type === "Circle"){
+                        var tmpCircle = new Circle(data.content[i].xCoord,data.content[i].yCoord,data.content[i].selectedColor,data.content[i].radius, data.content[i].lineWidth);
+                        newArray.push(tmpCircle);
+                    }
+                    else if(data.content[i].type === "Line"){
+                        var tmpLine = new Line(data.content[i].xCoord, data.content[i].yCoord, data.content[i].selectedColor, data.content[i].endPoint.xCoord, data.content[i].endPoint.yCoord,data.content[i].lineWidth);
+                        newArray.push(tmpLine);
+                    }
+                    else if(data.content[i].type === "Text"){
+                        var tmpText = new Text(data.content[i].xCoord, data.content[i].yCoord, data.content[i].selectedColor, data.content[i].fontStyle, data.content[i].fontSize, data.content[i].sentence);
+                        tmpText.textBox = data.content[i].textBox;
+                        newArray.push(tmpText);
+                    }
+
+                }
+                objectArray = newArray;
+                context.clearRect(0,0,700,700);
+                drawCompleteCanvas();
+            }
+       })
     });
 
 
