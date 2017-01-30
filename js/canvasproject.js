@@ -470,6 +470,7 @@ $(document).ready(function(){
 
     document.getElementById("undobutton").onclick = function(){undo()};
     document.getElementById("redobutton").onclick = function(){redo()};
+    document.getElementById("clearbutton").onclick = function(){clear()};
 
 
     function undo(){
@@ -486,6 +487,15 @@ $(document).ready(function(){
             context.clearRect(0,0,700,700);
             drawCompleteCanvas();
         }
+
+    }
+
+    function clear(){
+    	while(objectArray.length > 0)
+    	{
+    		objectArray.pop();
+    	}
+    	context.clearRect(0,0,700,700);
 
     }
   
