@@ -404,7 +404,7 @@ $(document).ready(function(){
         $.ajax({
             type : "GET",
             contentType: "application/json; charset=utf-8",
-            url : url + id,
+            url : url + title,
             success : function(data){
                 var newArray = [];
                 for(var i = 0; i < data.content.length; i++){
