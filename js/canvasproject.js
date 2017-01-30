@@ -380,6 +380,7 @@ $(document).ready(function(){
 
         var url = "http://localhost:3000/api/drawings";
 
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -397,6 +398,7 @@ $(document).ready(function(){
         for(var k = 0; k < oldList.length; k++){
             oldList.remove(k);
         }
+
         $.ajax({
             type : "GET",
             contentType : "application/json; charset=utf-8",
@@ -411,14 +413,6 @@ $(document).ready(function(){
                     var select = document.getElementById("database");
                     select.appendChild(option);
                 }
-                /*
-                 $("select#database option").each(function(){
-                 if(this.selected){
-                 alert("valkosturinn þinn er" + data.title);
-                 var tmpid = this.data.id;
-                 id = tmpid.toString();
-                 }
-                 });*/
             }
         });
     });
