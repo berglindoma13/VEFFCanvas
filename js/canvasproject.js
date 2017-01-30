@@ -293,8 +293,8 @@ $(document).ready(function(){
 
        if( settings.isDrawing === true){
             if(settings.nextObject === "Rectangle"){
-                var width = Math.abs(currentEnd.xCoord - beginPoint.xCoord);
-                var height = Math.abs(currentEnd.yCoord - beginPoint.yCoord);
+                var width = currentEnd.xCoord - beginPoint.xCoord;
+                var height = currentEnd.yCoord - beginPoint.yCoord;
                 var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
                 tmpRect.draw(context);
             }
@@ -333,8 +333,8 @@ $(document).ready(function(){
         var FinalEnd = new Point(xCoord,yCoord);
 
         if (settings.nextObject === "Rectangle"){
-            var width = Math.abs(FinalEnd.xCoord - beginPoint.xCoord);
-            var height = Math.abs(FinalEnd.yCoord - beginPoint.yCoord);
+            var width = FinalEnd.xCoord - beginPoint.xCoord;
+            var height = FinalEnd.yCoord - beginPoint.yCoord;
             var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
             objectArray.push(NewRect);
         }
