@@ -53,7 +53,7 @@ class Rectangle extends Shape{
     }
 
     draw(context){
-        context.lineWidth=this.lineWidth;
+        context.lineWidth = this.lineWidth;
         context.strokeStyle = this.selectedColor;
         context.strokeRect(this.xCoord,this.yCoord,this.width,this.height);
     }
@@ -212,14 +212,6 @@ $(document).ready(function(){
                 select.appendChild(option);
 
             }
-            /*
-             $("select#database option").each(function(){
-             if(this.selected){
-             alert("valkosturinn þinn er" + data.title);
-             var tmpid = this.data.id;
-             id = tmpid.toString();
-             }
-             });*/
         }
     });
 
@@ -292,9 +284,9 @@ $(document).ready(function(){
 
 
        if( settings.isDrawing === true){
-            if(settings.nextObject === "Rectangle"){
-                var width = currentEnd.xCoord - beginPoint.xCoord;
-                var height = currentEnd.yCoord - beginPoint.yCoord;
+            if(settings.nextObject === "Rectangle");
+                var width = Math.abs(currentEnd.xCoord - beginPoint.xCoord);
+                var height = Math.abs(currentEnd.yCoord - beginPoint.yCoord);
                 var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
                 tmpRect.draw(context);
             }
@@ -333,8 +325,8 @@ $(document).ready(function(){
         var FinalEnd = new Point(xCoord,yCoord);
 
         if (settings.nextObject === "Rectangle"){
-            var width = FinalEnd.xCoord - beginPoint.xCoord;
-            var height = FinalEnd.yCoord - beginPoint.yCoord;
+            var width = Math.abs(FinalEnd.xCoord - beginPoint.xCoord);
+            var height = Math.abs(FinalEnd.yCoord - beginPoint.yCoord);
             var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
             objectArray.push(NewRect);
         }
