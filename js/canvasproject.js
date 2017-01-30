@@ -374,23 +374,9 @@ $(document).ready(function(){
         var url = "http://localhost:3000/api/drawings/";
 
         $.ajax({
-           type : "GET",
-            contentType : "application/json; charset=utf-8",
-            url : url,
-            success : function(data){
-               for(var j = 0; j < data.length; j++){
-                   if(data[j].title === title){
-                       var tmpid = data[j].id;
-                       id = tmpid.toString();
-                   }
-               }
-            }
-        });
-
-        $.ajax({
             type : "GET",
             contentType: "application/json; charset=utf-8",
-            url : url + id,
+            url : url + title,
             success : function(data){
                 var newArray = [];
                 for(var i = 0; i < data.content.length; i++){
