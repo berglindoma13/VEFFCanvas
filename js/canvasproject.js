@@ -90,7 +90,6 @@ class Pen extends Shape{
     draw(context) {
         //draw for each two points in the points array for
         for(var i = 0; i < this.points.length - 1; i++){
-            console.log("here");
             context.beginPath();
             context.lineWidth=this.lineWidth;
             context.strokeStyle = this.selectedColor;
@@ -362,13 +361,13 @@ $(document).ready(function(){
                 alert("Your canvas has been saved");
             },
             error: function (xhr, err) {
-                alert('Something went wrong, your draving could not be saved');
+                alert('Something went wrong, your drawing could not be saved');
             }
         });
     });
 
+
     $('#loadbutton').click(function(){
-        var title = prompt("Please enter the name of the canvas");
         var id = "";
 
         var url = "http://localhost:3000/api/drawings/";
@@ -378,12 +377,27 @@ $(document).ready(function(){
             contentType : "application/json; charset=utf-8",
             url : url,
             success : function(data){
-               for(var j = 0; j < data.length; j++){
-                   if(data[j].title === title){
-                       var tmpid = data[j].id;
-                       id = tmpid.toString();
-                   }
-               }
+				for (var i = 0; i < data.length; i++) {
+
+					var option = document.createElement("option");
+					option.text = data[i].title;
+					option.value = data[i].title;
+					var select = document.getElementById("database");
+					select.appendChild(option);
+
+    				if(this.selected){
+						var tmpid = data[i].id;
+                        id = tmpid.toString();
+    				}
+				}
+               /*
+               $("select#database option").each(function(){
+               		if(this.selected){
+               			alert("valkosturinn þinn er" + data.title);
+               		 var tmpid = this.data.id;
+                	id = tmpid.toString();
+               		}
+               });*/
             }
         });
 
@@ -416,8 +430,8 @@ $(document).ready(function(){
                         tmpText.textBox = data.content[i].textBox;
                         newArray.push(tmpText);
                     }
-
                 }
+
                 objectArray = newArray;
                 context.clearRect(0,0,700,700);
                 drawCompleteCanvas();

@@ -57,12 +57,14 @@
             <textarea title = "textarea" id = "textarea" rows = "4" cols ="25"></textarea>
             </label>
         </div>
-        <div class="buttons">
+        <form class="buttons">
             <button type = "button" title = "undobutton" id = "undobutton">UNDO</button>
             <button type = "button" title = "redobutton" id = "redobutton">REDO</button>
-            <button type = "button" title = "savebutton" id = "savebutton" >SAVE</button>
             <button type = "button" title = "loadbutton" id = "loadbutton">LOAD</button>
-        </div>
+        </form>
+        <form class="buttons">
+            <button type = "button" title = "savebutton" id = "savebutton" >SAVE</button>
+        </form>
         <div class="content is-small fonts">
             <form action="">
                 <label>Font size <br>
@@ -92,6 +94,9 @@
 
                 </label>
             </form>
+            <select id="database">
+                <option value="0">Choose an image</option>
+            </select>
 
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
