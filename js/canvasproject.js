@@ -195,6 +195,34 @@ var undoneObject = [];
 
 $(document).ready(function(){
 
+    var url = "http://localhost:3000/api/drawings/";
+
+    $.ajax({
+        type : "GET",
+        contentType : "application/json; charset=utf-8",
+        url : url,
+        success : function(data){
+            for (var i = 0; i < data.length; i++) {
+
+                var option = document.createElement("option");
+                option.text = data[i].title;
+                option.value = data[i].title;
+                option.id = data[i].id;
+                var select = document.getElementById("database");
+                select.appendChild(option);
+
+            }
+            /*
+             $("select#database option").each(function(){
+             if(this.selected){
+             alert("valkosturinn þinn er" + data.title);
+             var tmpid = this.data.id;
+             id = tmpid.toString();
+             }
+             });*/
+        }
+    });
+
     var settings = {
         canvas : document.getElementById("MyCanvas1"),
         nextObject : "Pen",
@@ -364,47 +392,47 @@ $(document).ready(function(){
                 alert('Something went wrong, your drawing could not be saved');
             }
         });
-    });
 
-
-    $('#loadbutton').click(function(){
-        var id = "";
-
-        var url = "http://localhost:3000/api/drawings/";
-
+        var oldList = document.getElementById("database");
+        for(var k = 0; k < oldList.length; k++){
+            oldList.remove(k);
+        }
         $.ajax({
-           type : "GET",
+            type : "GET",
             contentType : "application/json; charset=utf-8",
             url : url,
             success : function(data){
-				for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++) {
 
-					var option = document.createElement("option");
-					option.text = data[i].title;
-					option.value = data[i].title;
-					var select = document.getElementById("database");
-					select.appendChild(option);
-
-    				if(this.selected){
-						var tmpid = data[i].id;
-                        id = tmpid.toString();
-    				}
-				}
-               /*
-               $("select#database option").each(function(){
-               		if(this.selected){
-               			alert("valkosturinn þinn er" + data.title);
-               		 var tmpid = this.data.id;
-                	id = tmpid.toString();
-               		}
-               });*/
+                    var option = document.createElement("option");
+                    option.text = data[i].title;
+                    option.value = data[i].title;
+                    option.id = data[i].id;
+                    var select = document.getElementById("database");
+                    select.appendChild(option);
+                }
+                /*
+                 $("select#database option").each(function(){
+                 if(this.selected){
+                 alert("valkosturinn þinn er" + data.title);
+                 var tmpid = this.data.id;
+                 id = tmpid.toString();
+                 }
+                 });*/
             }
         });
+    });
+
+
+    $('#database').change(function(){
+        var canvasList = document.getElementById("database");
+        var id = canvasList.options[canvasList.selectedIndex].id;
+        var url = "http://localhost:3000/api/drawings/";
 
         $.ajax({
             type : "GET",
             contentType: "application/json; charset=utf-8",
-            url : url + title,
+            url : url + id,
             success : function(data){
                 var newArray = [];
                 for(var i = 0; i < data.content.length; i++){
