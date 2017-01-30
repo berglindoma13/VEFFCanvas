@@ -37,6 +37,13 @@ body {
     top: -15px;
     left: 700px;
 }
+
+.save{
+    position: relative;
+    top: -64px;
+    left: 878px;
+}
+
 #undobutton{
     display: block;
     margin-bottom: 7px;
@@ -59,8 +66,6 @@ body {
     left : 600px;
 
 }
-
-
 
 textarea {
    resize: none;
