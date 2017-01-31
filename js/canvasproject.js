@@ -212,14 +212,6 @@ $(document).ready(function(){
                 select.appendChild(option);
 
             }
-            /*
-             $("select#database option").each(function(){
-             if(this.selected){
-             alert("valkosturinn þinn er" + data.title);
-             var tmpid = this.data.id;
-             id = tmpid.toString();
-             }
-             });*/
         }
     });
 
@@ -411,14 +403,7 @@ $(document).ready(function(){
                     var select = document.getElementById("database");
                     select.appendChild(option);
                 }
-                /*
-                 $("select#database option").each(function(){
-                 if(this.selected){
-                 alert("valkosturinn þinn er" + data.title);
-                 var tmpid = this.data.id;
-                 id = tmpid.toString();
-                 }
-                 });*/
+
             }
         });
     });
