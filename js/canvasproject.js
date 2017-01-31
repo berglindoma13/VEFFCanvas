@@ -53,7 +53,7 @@ class Rectangle extends Shape{
     }
 
     draw(context){
-        context.lineWidth=this.lineWidth;
+        context.lineWidth = this.lineWidth;
         context.strokeStyle = this.selectedColor;
         context.strokeRect(this.xCoord,this.yCoord,this.width,this.height);
     }
@@ -281,37 +281,50 @@ $(document).ready(function(){
 
        context.clearRect(0,0,700,700);
 
+       if( settings.isDrawing === true) {
+           if (settings.nextObject === "Rectangle") {
+               //check which way the rectangle is being drawn
+               var leftDrawTest = currentEnd.xCoord - beginPoint.xCoord;
+               var upDrawTest = currentEnd.yCoord - beginPoint.yCoord;
 
-
-       if( settings.isDrawing === true){
-            if(settings.nextObject === "Rectangle"){
-                var width = Math.abs(currentEnd.xCoord - beginPoint.xCoord);
-                var height = Math.abs(currentEnd.yCoord - beginPoint.yCoord);
-                var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
-                tmpRect.draw(context);
-            }
-            else if(settings.nextObject === "Line"){
-                var tmpLine = new Line(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, currentEnd.xCoord, currentEnd.yCoord,settings.lineWidth);
-                tmpLine.draw(context);
-            }
-            else if(settings.nextObject === "Circle"){
-                var deltaX = beginPoint.xCoord - currentEnd.xCoord;
-                var deltaY = beginPoint.yCoord - currentEnd.yCoord;
-                var radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                var tmpCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, radius,settings.lineWidth);
-                tmpCircle.draw(context);
-            }
-            else if(settings.nextObject === "Pen"){
-                currentPen.addToLine(currentEnd);
-                currentPen.draw(context);
-            }
-            else if(settings.nextObject === "Select"){
-                if(settings.isDragging){
-                    settings.selectedObject.xCoord = currentEnd.xCoord - settings.dragOffsetX;
-                    settings.selectedObject.yCoord = currentEnd.yCoord - settings.dragOffsetY;
-                }
-            }
-        }
+               var width = Math.abs(currentEnd.xCoord - beginPoint.xCoord);
+               var height = Math.abs(currentEnd.yCoord - beginPoint.yCoord);
+               if ((leftDrawTest < 0) && (upDrawTest < 0)) {
+                   var tmpRect = new Rectangle(currentEnd.xCoord, currentEnd.yCoord, width, height, settings.nextColor, settings.lineWidth);
+               }
+               else if (leftDrawTest < 0) {
+                   var tmpRect = new Rectangle(beginPoint.xCoord - width, beginPoint.yCoord, width, height, settings.nextColor, settings.lineWidth);
+               }
+               else if(upDrawTest < 0){
+                   var tmpRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord - height,width,height, settings.nextColor,settings.lineWidth);
+               }
+               else {
+                   var tmpRect = new Rectangle(beginPoint.xCoord, beginPoint.yCoord, width, height, settings.nextColor, settings.lineWidth);
+               }
+               tmpRect.draw(context);
+           }
+           else if (settings.nextObject === "Line") {
+               var tmpLine = new Line(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, currentEnd.xCoord, currentEnd.yCoord, settings.lineWidth);
+               tmpLine.draw(context);
+           }
+           else if (settings.nextObject === "Circle") {
+               var deltaX = beginPoint.xCoord - currentEnd.xCoord;
+               var deltaY = beginPoint.yCoord - currentEnd.yCoord;
+               var radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+               var tmpCircle = new Circle(beginPoint.xCoord, beginPoint.yCoord, settings.nextColor, radius, settings.lineWidth);
+               tmpCircle.draw(context);
+           }
+           else if (settings.nextObject === "Pen") {
+               currentPen.addToLine(currentEnd);
+               currentPen.draw(context);
+           }
+           else if (settings.nextObject === "Select") {
+               if (settings.isDragging) {
+                   settings.selectedObject.xCoord = currentEnd.xCoord - settings.dragOffsetX;
+                   settings.selectedObject.yCoord = currentEnd.yCoord - settings.dragOffsetY;
+               }
+           }
+       }
         drawCompleteCanvas();
 
     });
@@ -325,9 +338,27 @@ $(document).ready(function(){
         var FinalEnd = new Point(xCoord,yCoord);
 
         if (settings.nextObject === "Rectangle"){
+            //checking which way the rectangle should be drawn
+            var leftDrawTest = FinalEnd.xCoord - beginPoint.xCoord;
+            var upDrawTest = FinalEnd.yCoord - beginPoint.yCoord;
+
             var width = Math.abs(FinalEnd.xCoord - beginPoint.xCoord);
             var height = Math.abs(FinalEnd.yCoord - beginPoint.yCoord);
-            var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
+
+            if((leftDrawTest < 0) && (upDrawTest < 0)){
+                var NewRect = new Rectangle(FinalEnd.xCoord,FinalEnd.yCoord,width,height, settings.nextColor,settings.lineWidth);
+
+            }
+            else if((leftDrawTest < 0)){
+                var NewRect = new Rectangle(beginPoint.xCoord - width,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
+
+            }
+            else if(upDrawTest < 0){
+                var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord - height,width,height, settings.nextColor,settings.lineWidth);
+            }
+            else{
+                var NewRect = new Rectangle(beginPoint.xCoord,beginPoint.yCoord,width,height, settings.nextColor,settings.lineWidth);
+            }
             objectArray.push(NewRect);
         }
         else if(settings.nextObject === "Line"){
@@ -372,6 +403,7 @@ $(document).ready(function(){
 
         var url = "http://localhost:3000/api/drawings";
 
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -389,6 +421,7 @@ $(document).ready(function(){
         for(var k = 0; k < oldList.length; k++){
             oldList.remove(k);
         }
+
         $.ajax({
             type : "GET",
             contentType : "application/json; charset=utf-8",
@@ -403,7 +436,6 @@ $(document).ready(function(){
                     var select = document.getElementById("database");
                     select.appendChild(option);
                 }
-
             }
         });
     });
@@ -455,6 +487,7 @@ $(document).ready(function(){
 
     document.getElementById("undobutton").onclick = function(){undo()};
     document.getElementById("redobutton").onclick = function(){redo()};
+    document.getElementById("clearbutton").onclick = function(){clear()};
 
 
     function undo(){
@@ -473,12 +506,21 @@ $(document).ready(function(){
         }
 
     }
-  
-    function selectMove(pos){
 
-        for(var i = 0; i < objectArray.length; i++){
-            if(objectArray[i].inside(pos.xCoord, pos.yCoord)){
-              var mySelection = objectArray[i];
+    function clear(){
+    	while(objectArray.length > 0)
+    	{
+    		objectArray.pop();
+    	}
+    	context.clearRect(0,0,700,700);
+
+    }
+  
+    function selectMove(pos) {
+
+        for (var i = 0; i < objectArray.length; i++) {
+            if (objectArray[i].inside(pos.xCoord, pos.yCoord)) {
+                var mySelection = objectArray[i];
                 settings.dragOffsetX = pos.xCoord - mySelection.xCoord;
                 settings.dragOffsetY = pos.yCoord - mySelection.yCoord;
                 settings.isDragging = true;
@@ -487,6 +529,5 @@ $(document).ready(function(){
             }
         }
     }
-
 });
 

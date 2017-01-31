@@ -60,9 +60,13 @@
         <form class="buttons">
             <button type = "button" title = "undobutton" id = "undobutton">UNDO</button>
             <button type = "button" title = "redobutton" id = "redobutton">REDO</button>
+            <button type = "button" title = "clearbutton" id = "clearbutton">CLEAR</button>
         </form>
-        <form class="buttons">
+        <form class="save">
             <button type = "button" title = "savebutton" id = "savebutton" >SAVE</button>
+            <select id="database">
+                <option value="0">Load image</option>
+            </select>
         </form>
         <div class="content is-small fonts">
             <form action="">
@@ -90,13 +94,8 @@
                         <option title = "fontStyle" value="Arial">Arial</option>
                         <option title = "fontStyle" value="Tahoma">Tahoma</option>
                     </select>
-
                 </label>
             </form>
-            <select id="database">
-                <option value="0">Choose an image</option>
-            </select>
-
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
         <script src="js/canvasproject.js"></script>
